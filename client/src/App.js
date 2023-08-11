@@ -1,17 +1,17 @@
-import React from 'react';
-import { Button, Space } from 'antd';
+import './stylesheets/alignments.css';
+import './stylesheets/theme.css';
+import './stylesheets/sizes.css';
+import './stylesheets/custom-components.css';
+import './stylesheets/formElements.css';
+
 
 function App() {
   return (
-    <div>
-      <h1>Dzix's Library</h1>
-      <Space wrap>
-    <Button type="primary">Primary Button</Button>
-    <Button>Default Button</Button>
-    <Button type="dashed">Dashed Button</Button>
-    <Button type="text">Text Button</Button>
-    <Button type="link">Link Button</Button>
-  </Space>
+    <div 
+    className="bg-primary flex justify-center items-center h-screen">
+      
+      <h1 className="text-white">Dzix's Library</h1>
+    
     </div>
   );
 }
