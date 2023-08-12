@@ -1,0 +1,19 @@
+input{
+    height: 40px;
+    width: 100%;
+    border: gray 1px solid;
+    padding-left: 5px;
+    font-size: 17px;
+}
+.ant-form-item{
+    margin-bottom: 18px;
+}
+
+input:focus{
+    outline-color:none;
+    border: rgb(60, 60, 60) 1px solid; 
+}
+
+button{
+    height: 43px;
+}

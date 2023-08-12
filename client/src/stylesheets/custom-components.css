@@ -1,3 +1,14 @@
 .authentication-form{
     width: 400px;
 }
+.font-bold{
+    font-weight: bold;
+}
+.underline{
+    text-decoration : underline;
+}
+a:hover{
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: underline;
+}
