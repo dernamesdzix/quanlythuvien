@@ -1,11 +1,23 @@
 import React from "react";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
+import { loginUser } from "../../api/user";
 
 function Login() {
-  const onFinish = (value) => {
-    console.log("Success:", value);
+  const onFinish = async (values) => {
+    try {
+      const response = await loginUser(values);
+      if (response.success) {
+        message.success(response.message);
+        localStorage.setItem("token", response.data);
+        window.location.href = "/";
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
   };
 
   return (
@@ -23,7 +35,7 @@ function Login() {
             <input type="password" placeholder="Password" />
           </Form.Item>
 
-          <Button title="Register" type="Submit" />
+          <Button title="Login" type="Submit" />
 
           <div className="text-center mt-1">
             <Link to="/register" className="text-primary text-sm underline">

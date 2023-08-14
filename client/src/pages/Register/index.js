@@ -1,11 +1,21 @@
 import React from "react";
-import { Form } from "antd";
+import { Form, message } from "antd";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
+import { registerUser } from "../../api/user";
 
 function Register() {
-  const onFinish = (value) => {
-    console.log("Success:", value);
+  const onFinish = async (values) => {
+    try {
+      const response = await registerUser(values);
+      if (!response.sucess) {
+        message.success(response.message);
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
   };
 
   return (
@@ -21,6 +31,9 @@ function Register() {
           </Form.Item>
           <Form.Item label="Email" name="email">
             <input type="email" placeholder="Email" />
+          </Form.Item>
+          <Form.Item label="Phone number" name="phone">
+            <input type="number" placeholder="Phone number" />
           </Form.Item>
           <Form.Item label="Password" name="password">
             <input type="password" placeholder="Password" />
