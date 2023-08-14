@@ -19,3 +19,13 @@ export const loginUser = async (payload) => {
     throw error;
   }
 };
+
+// get logged in user details
+export const getLoggedInUserDetails = async () => {
+  try {
+    const response = await apiManagement.get("/api/users/get-logged-in-user");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
