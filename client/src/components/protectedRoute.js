@@ -13,9 +13,13 @@ function ProtectedRoute({ children }) {
       if (response.success) {
         setUser(response.data);
       } else {
+        localStorage.removeItem("token");
+        navigate("/login");
         message.error(response.message);
       }
     } catch (error) {
+      localStorage.removeItem("token");
+      navigate("/login");
       message.error(error.message);
     }
   };
@@ -33,9 +37,10 @@ function ProtectedRoute({ children }) {
     <div>
       {user && (
         <>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-          <p>Role: {user.role}</p>
+          <h1>{user.name}</h1>
+          <h1>{user.email}</h1>
+          <h1>{user.phone}</h1>
+          <h1>{user.role}</h1>
           {children}
         </>
       )}

@@ -20,7 +20,7 @@ export const loginUser = async (payload) => {
   }
 };
 
-// get logged in user details
+// get user details
 export const getLoggedInUserDetails = async () => {
   try {
     const response = await apiManagement.get("/api/users/get-logged-in-user");
