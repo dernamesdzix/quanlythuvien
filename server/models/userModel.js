@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      default: "Customer", // customer, admin, librarian
+      default: "Borrower", // borrower, admin, librarian
     },
     status: {
       type: String,
@@ -35,4 +35,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("users", userSchema);

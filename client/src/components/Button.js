@@ -6,8 +6,9 @@ function Button({
   color = "primary",
   type = "button",
   onclick,
+  fullWidth = false,
 }) {
-  let className = "w-100 py-1 ";
+  let className = fullWidth ? "w-100 rounded " : "pr-2 pl-2 rounded ";
   if (variant === "contained") {
     className += "bg-" + color + ` text-white`;
   } else if (variant === "outlined") {

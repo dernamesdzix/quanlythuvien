@@ -10,7 +10,7 @@ import "./stylesheets/custom-components.css";
 import "./stylesheets/formElements.css";
 import Loader from "./components/Loader";
 import { useSelector } from "react-redux";
-import { Profile } from "./pages/Profile";
+import Profile from "./pages/Profile";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
