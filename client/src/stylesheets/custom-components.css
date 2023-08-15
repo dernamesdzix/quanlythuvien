@@ -12,3 +12,29 @@ a:hover{
     cursor: pointer;
     text-decoration: underline;
 }
+.loader-parent {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.722);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100000;
+  }
+  
+  .loader {
+    height: 40px;
+    width: 40px;
+    border: 5px solid #f3f3f3;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: loader-anim 1.5s linear infinite;
+  }
+  @keyframes loader-anim {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

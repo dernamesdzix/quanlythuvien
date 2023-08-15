@@ -3,12 +3,18 @@ import { Form, message } from "antd";
 import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser } from "../../api/user";
+import { useDispatch } from "react-redux";
+import { HideLoading, ShowLoading } from "../../redux/loaderSlice";
 
 function Register() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const onFinish = async (values) => {
     try {
+      dispatch(ShowLoading());
       const response = await registerUser(values);
+      dispatch(HideLoading());
+
       if (response.success) {
         message.success(response.message);
         navigate("/login");
@@ -16,6 +22,7 @@ function Register() {
         message.error(response.message);
       }
     } catch (error) {
+      dispatch(HideLoading());
       message.error(error.message);
     }
   };
@@ -37,13 +44,40 @@ function Register() {
           <Form.Item label="Name" name="name">
             <input type="text" placeholder="Name" />
           </Form.Item>
-          <Form.Item label="Email" name="email">
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}
+          >
             <input type="email" placeholder="Email" />
           </Form.Item>
-          <Form.Item label="Phone number" name="phone">
+          <Form.Item
+            label="Phone number"
+            name="phone"
+            rules={[
+              {
+                required: true,
+                message: "Please input your phone!",
+              },
+            ]}
+          >
             <input type="number" placeholder="Phone number" />
           </Form.Item>
-          <Form.Item label="Password" name="password">
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+          >
             <input type="password" placeholder="Password" />
           </Form.Item>
 

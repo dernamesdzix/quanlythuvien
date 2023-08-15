@@ -8,10 +8,14 @@ import "./stylesheets/theme.css";
 import "./stylesheets/sizes.css";
 import "./stylesheets/custom-components.css";
 import "./stylesheets/formElements.css";
+import Loader from "./components/Loader";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { loading } = useSelector((state) => state.loaders);
   return (
     <div>
+      {loading && <Loader />}
       <BrowserRouter>
         <Routes>
           <Route
