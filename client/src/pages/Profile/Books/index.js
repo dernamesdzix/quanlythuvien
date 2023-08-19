@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import Button from "../../../components/Button";
 import BookForm from "./BookForm";
 import { useDispatch } from "react-redux";
-import { GetAllBooks } from "../../../api/books";
+import { DeleteBook, GetAllBooks } from "../../../api/books";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { Table, message } from "antd";
+import moment from "moment";
 
 function Books() {
   const [formType, setFormType] = useState("add");
@@ -32,6 +33,23 @@ function Books() {
   useEffect(() => {
     getBooks();
   }, []);
+
+  const deleteBook = async (id) => {
+    try {
+      dispatch(ShowLoading());
+      const response = await DeleteBook(id);
+      dispatch(HideLoading());
+      if (response.success) {
+        message.success(response.message);
+        getBooks();
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      dispatch(HideLoading());
+      message.error(error.message);
+    }
+  };
 
   const columns = [
     {
@@ -64,13 +82,18 @@ function Books() {
       dataIndex: "availableCopies",
     },
     {
+      title: "Added On",
+      dataIndex: "createdAt",
+      render: (date) => moment(date).format("DD-MM-YYYY hh:mm:ss A"),
+    },
+    {
       title: "Action",
       dataIndex: "action",
       render: (text, record) => (
         <div className="flex gap-1">
           <i
             class="ri-delete-bin-5-line"
-            // onClick={() => deleteBook(record._id)}
+            onClick={() => deleteBook(record._id)}
           ></i>
           <i
             className="ri-pencil-line"
@@ -112,7 +135,14 @@ function Books() {
   return (
     <div>
       <div className="flex justify-end">
-        <Button title="Add Book" onClick={() => setOpenBookForm(true)} />
+        <Button
+          title="Add Book"
+          onClick={() => {
+            setFormType("add");
+            setSelectedBook(null);
+            setOpenBookForm(true);
+          }}
+        />
       </div>
       <Table columns={columns} dataSource={Books} className="mt-1" />
 
