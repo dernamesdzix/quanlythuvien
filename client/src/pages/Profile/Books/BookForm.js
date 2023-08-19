@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal } from "antd";
 
-function BookForm() {
-  const [open, setOpen] = useState(false);
-
+function BookForm({ open, setOpen }) {
   return (
     <Modal
       title="Add Book"

@@ -5,7 +5,7 @@ function Button({
   variant = "contained",
   color = "primary",
   type = "button",
-  onclick,
+  onClick,
   fullWidth = false,
 }) {
   let className = fullWidth ? "w-100 rounded " : "pr-2 pl-2 rounded ";
@@ -15,7 +15,7 @@ function Button({
     className += "border-" + color + ` text` + color;
   }
   return (
-    <button className={className} type={type} onclick={onclick}>
+    <button className={className} type={type} onClick={onClick}>
       {" "}
       {title}
     </button>

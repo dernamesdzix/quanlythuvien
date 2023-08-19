@@ -8,13 +8,9 @@ function Books() {
   return (
     <div>
       <div className="flex justify-end">
-        <Button
-          title="Add Book"
-          onClick={() => {
-            setOpenBookForm(true);
-          }}
-        />
+        <Button title="Add Book" onClick={() => setOpenBookForm(true)} />
       </div>
+
       {openBookForm && (
         <BookForm open={openBookForm} setOpen={setOpenBookForm} />
       )}
