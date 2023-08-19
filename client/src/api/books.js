@@ -8,3 +8,13 @@ export const AddBook = async (payload) => {
     throw error;
   }
 };
+
+// get all books
+export const GetAllBooks = async () => {
+  try {
+    const response = await apiManagement.get("/api/books/get-all-books");
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

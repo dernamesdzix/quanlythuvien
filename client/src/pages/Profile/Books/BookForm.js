@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddBook } from "../../../api/books";
 import { ShowLoading, HideLoading } from "../../../redux/loaderSlice";
 
-function BookForm({ open, setOpen }) {
+function BookForm({ open, setOpen, reloadBooks }) {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const onFinish = async (values) => {
@@ -17,6 +17,8 @@ function BookForm({ open, setOpen }) {
       const response = await AddBook(values);
       if (response.success) {
         message.success(response.message);
+        reloadBooks();
+        setOpen(false);
       } else {
         message.error(response.message);
       }
