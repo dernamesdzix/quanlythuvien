@@ -2,19 +2,32 @@ import React from "react";
 import { Col, Form, Modal, Row, message } from "antd";
 import Button from "../../../components/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { AddBook } from "../../../api/books";
+import { AddBook, UpdateBook } from "../../../api/books";
 import { ShowLoading, HideLoading } from "../../../redux/loaderSlice";
 
-function BookForm({ open, setOpen, reloadBooks }) {
+function BookForm({
+  open,
+  setOpen,
+  reloadBooks,
+  setFormType,
+  formType,
+  selectedBook,
+  setSelectedBook,
+}) {
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const onFinish = async (values) => {
     try {
       dispatch(ShowLoading());
       values.createdBy = user._id;
-      values.availableCopies = values.totalCopies;
-
-      const response = await AddBook(values);
+      let response = null;
+      if (formType === "add") {
+        values.availableCopies = values.totalCopies;
+        response = await AddBook(values);
+      } else {
+        values._id = selectedBook._id;
+        response = await UpdateBook(values);
+      }
       if (response.success) {
         message.success(response.message);
         reloadBooks();
@@ -31,20 +44,29 @@ function BookForm({ open, setOpen, reloadBooks }) {
 
   return (
     <Modal
-      title="Add Book"
+      title={formType === "add" ? "Add Book" : "Edit Book"}
       open={open}
       onCancel={() => setOpen(false)}
       centered
       width={800}
       footer={null}
     >
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form
+        layout="vertical"
+        onFinish={onFinish}
+        initialValues={{
+          ...selectedBook,
+          publishedDate: selectedBook?.publishedDate
+            ? new Date(selectedBook?.publishedDate).toISOString().split("T")[0]
+            : null,
+        }}
+      >
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Form.Item
               label="Title"
               name="title"
-              rules={[{ require: true, messsage: "Please add a book title" }]}
+              rules={[{ required: true, message: "Please add book title" }]}
             >
               <input type="text" />
             </Form.Item>
@@ -54,17 +76,17 @@ function BookForm({ open, setOpen, reloadBooks }) {
               label="Description"
               name="description"
               rules={[
-                { require: true, messsage: "Please add a book description" },
+                { required: true, message: "Please input book description" },
               ]}
             >
-              <input type="text" />
+              <textarea type="text" />
             </Form.Item>
           </Col>
           <Col span={24}>
             <Form.Item
-              label="image URL"
+              label="Image URL"
               name="image"
-              rules={[{ require: true, messsage: "Please add image url" }]}
+              rules={[{ required: true, message: "Please input image url" }]}
             >
               <input type="text" />
             </Form.Item>
@@ -73,7 +95,7 @@ function BookForm({ open, setOpen, reloadBooks }) {
             <Form.Item
               label="Author"
               name="author"
-              rules={[{ require: true, messsage: "Please add author name" }]}
+              rules={[{ required: true, message: "Please input author name" }]}
             >
               <input type="text" />
             </Form.Item>
@@ -82,7 +104,9 @@ function BookForm({ open, setOpen, reloadBooks }) {
             <Form.Item
               label="Publisher"
               name="publisher"
-              rules={[{ require: true, messsage: "Please add publisher name" }]}
+              rules={[
+                { required: true, message: "Please input publisher name" },
+              ]}
             >
               <input type="text" />
             </Form.Item>
@@ -91,7 +115,9 @@ function BookForm({ open, setOpen, reloadBooks }) {
             <Form.Item
               label="Published Date"
               name="publishedDate"
-              rules={[{ require: true, messsage: "Please add published date" }]}
+              rules={[
+                { required: true, message: "Please input published date" },
+              ]}
             >
               <input type="date" />
             </Form.Item>
@@ -100,17 +126,20 @@ function BookForm({ open, setOpen, reloadBooks }) {
             <Form.Item
               label="Category"
               name="category"
-              rules={[{ require: true, messsage: "Please add category" }]}
+              rules={[{ required: true, message: "Please input category" }]}
             >
               <select>
                 <option value="">Select Category</option>
                 <option value="mythology">Mythology</option>
-                <option value="fiction">Fiction</option>
+                <option value="sci-fi">Sci-Fi</option>
                 <option value="technology">Technology</option>
                 <option value="biography">Biography</option>
                 <option value="poetry">Poetry</option>
                 <option value="drama">Drama</option>
                 <option value="history">History</option>
+                <option value="novel">Novel</option>
+                <option value="horror">Horror</option>
+                <option value="cooking">Cooking</option>
               </select>
             </Form.Item>
           </Col>
@@ -118,7 +147,7 @@ function BookForm({ open, setOpen, reloadBooks }) {
             <Form.Item
               label="Rent Per Day"
               name="rentPerDay"
-              rules={[{ require: true, messsage: "Please input rent per day" }]}
+              rules={[{ required: true, message: "Please input rent per day" }]}
             >
               <input type="text" />
             </Form.Item>
@@ -127,7 +156,7 @@ function BookForm({ open, setOpen, reloadBooks }) {
             <Form.Item
               label="Total Copies"
               name="totalCopies"
-              rules={[{ require: true, messsage: "Please add total copies" }]}
+              rules={[{ required: true, message: "Please input total copies" }]}
             >
               <input type="text" />
             </Form.Item>

@@ -18,3 +18,15 @@ export const GetAllBooks = async () => {
     throw error;
   }
 };
+// update books
+export const UpdateBook = async (payload) => {
+  try {
+    const response = await apiManagement.put(
+      `/api/books/update-book/${payload._id}`,
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

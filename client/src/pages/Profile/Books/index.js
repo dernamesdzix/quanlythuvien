@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../components/Button";
 import BookForm from "./BookForm";
 import { useDispatch } from "react-redux";
@@ -7,6 +7,8 @@ import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { Table, message } from "antd";
 
 function Books() {
+  const [formType, setFormType] = useState("add");
+  const [selectedBook, setSelectedBook] = useState(null);
   const [openBookForm, setOpenBookForm] = React.useState(false);
   const [Books, setBooks] = React.useState([]);
   const dispatch = useDispatch();
@@ -72,11 +74,11 @@ function Books() {
           ></i>
           <i
             className="ri-pencil-line"
-            // onClick={() => {
-            //   setFormType("edit");
-            //   setSelectedBook(record);
-            //   setOpenBookForm(true);
-            // }}
+            onClick={() => {
+              setFormType("edit");
+              setSelectedBook(record);
+              setOpenBookForm(true);
+            }}
           ></i>
           {/* <span
             className="underline"
@@ -119,6 +121,9 @@ function Books() {
           open={openBookForm}
           setOpen={setOpenBookForm}
           reloadBooks={getBooks}
+          formType={formType}
+          selectedBook={selectedBook}
+          setSelectedBook={setSelectedBook}
         />
       )}
     </div>
