@@ -1,19 +1,27 @@
-input{
-    height: 40px;
-    width: 100%;
-    border: gray 1px solid;
-    padding-left: 5px;
-    font-size: 17px;
-}
-.ant-form-item{
-    margin-bottom: 18px;
-}
-
-input:focus{
-    outline-color:none;
-    border: rgb(60, 60, 60) 1px solid; 
+input,
+textarea,
+select {
+  min-height: 40px;
+  width: 100%;
+  border: gray 1px solid;
+  padding-left: 10px;
+  font-size: 14px;
 }
 
-button{
-    height: 43px;
+textarea{
+    padding-top: 15px;
+    min-height: 60px;
+}
+
+.ant-form-item {
+  margin-bottom: 8px;
+}
+
+input:focus , textarea:focus , select:focus {
+  outline: none;
+  border: rgb(60, 60, 60) solid 1px;
+}
+
+button {
+  height: 40px;
 }
