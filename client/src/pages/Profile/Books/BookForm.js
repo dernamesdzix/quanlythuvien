@@ -140,6 +140,7 @@ function BookForm({
                 <option value="novel">Novel</option>
                 <option value="horror">Horror</option>
                 <option value="cooking">Cooking</option>
+                <option value="biology">Biology</option>
               </select>
             </Form.Item>
           </Col>

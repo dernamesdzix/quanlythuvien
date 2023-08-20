@@ -29,3 +29,25 @@ export const getLoggedInUserDetails = async () => {
     throw error;
   }
 };
+
+// get all users
+export const getAllUsers = async (role) => {
+  try {
+    const response = await apiManagement.get(
+      `/api/users/get-all-users/${role}`
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// get user by id
+// export const GetUserById = async (id) => {
+//   try {
+//     const response = await axiosInstance.get(`/api/users/get-user-by-id/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// }

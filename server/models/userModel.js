@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      default: "Borrower", // borrower, admin, librarian
+      default: "patron", // patron, admin, librarian
     },
     status: {
       type: String,

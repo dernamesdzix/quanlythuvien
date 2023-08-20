@@ -11,8 +11,14 @@ function Profile() {
         <TabPane tab="Books" key="1">
           <Books />
         </TabPane>
-        <TabPane tab="Users" key="2">
-          <Users />
+        <TabPane tab="Patrons" key="2">
+          <Users role="patron" />
+        </TabPane>
+        <TabPane tab="Librarians" key="3">
+          <Users role="librarian" />
+        </TabPane>
+        <TabPane tab="Admins" key="4">
+          <Users role="admin" />
         </TabPane>
       </Tabs>
     </div>

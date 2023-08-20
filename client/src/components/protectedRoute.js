@@ -10,6 +10,7 @@ function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.users);
   const dispatch = useDispatch();
+
   const validateUserToken = async () => {
     try {
       dispatch(ShowLoading());
@@ -25,6 +26,7 @@ function ProtectedRoute({ children }) {
     } catch (error) {
       localStorage.removeItem("token");
       navigate("/login");
+      dispatch(HideLoading());
       message.error(error.message);
     }
   };
