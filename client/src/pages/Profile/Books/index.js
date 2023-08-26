@@ -6,11 +6,16 @@ import { DeleteBook, GetAllBooks } from "../../../api/books";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
 import { Table, message } from "antd";
 import moment from "moment";
+import Issues from "./issues";
+import IssueForm from "./IssueForm";
 
 function Books() {
   const [formType, setFormType] = useState("add");
   const [selectedBook, setSelectedBook] = useState(null);
   const [openBookForm, setOpenBookForm] = React.useState(false);
+  const [openIssues, setOpenIssues] = React.useState(false);
+  const [openIssuesForm, setOpenIssuesForm] = React.useState(false);
+
   const [Books, setBooks] = React.useState([]);
   const dispatch = useDispatch();
 
@@ -92,9 +97,10 @@ function Books() {
       render: (text, record) => (
         <div className="flex gap-1">
           <i
-            class="ri-delete-bin-5-line"
+            className="ri-delete-bin-5-line"
             onClick={() => deleteBook(record._id)}
           ></i>
+
           <i
             className="ri-pencil-line"
             onClick={() => {
@@ -103,25 +109,25 @@ function Books() {
               setOpenBookForm(true);
             }}
           ></i>
-          {/* <span
+          <span
             className="underline"
-            // onClick={() => {
-            //   setOpenIssues(true);
-            //   setSelectedBook(record);
-            // }}
+            onClick={() => {
+              setOpenIssues(true);
+              setSelectedBook(record);
+            }}
           >
             Issues
-          </span> */}
+          </span>
 
-          {/* <span
+          <span
             className="underline"
-            // onClick={() => {
-            //   setOpenIssuesForm(true);
-            //   setSelectedBook(record);
-            // }}
+            onClick={() => {
+              setOpenIssuesForm(true);
+              setSelectedBook(record);
+            }}
           >
             Issue Book
-          </span> */}
+          </span>
         </div>
       ),
     },
@@ -152,6 +158,24 @@ function Books() {
           setOpen={setOpenBookForm}
           reloadBooks={getBooks}
           formType={formType}
+          selectedBook={selectedBook}
+          setSelectedBook={setSelectedBook}
+        />
+      )}
+
+      {openIssues && (
+        <Issues
+          open={openIssues}
+          setOpen={setOpenIssues}
+          selectedBook={selectedBook}
+          setSelectedBook={setSelectedBook}
+        />
+      )}
+
+      {openIssuesForm && (
+        <IssueForm
+          open={openIssuesForm}
+          setOpen={setOpenIssuesForm}
           selectedBook={selectedBook}
           setSelectedBook={setSelectedBook}
         />
