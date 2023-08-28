@@ -178,6 +178,7 @@ function Books() {
           setOpen={setOpenIssuesForm}
           selectedBook={selectedBook}
           setSelectedBook={setSelectedBook}
+          getData={getBooks}
         />
       )}
     </div>

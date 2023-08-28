@@ -119,4 +119,26 @@ router.get(`/get-all-users/:role`, authMiddlewares, async (req, res) => {
   }
 });
 
+// get user by id
+router.get("/get-user-by-id/:id", authMiddlewares, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.send({
+        success: false,
+        message: "User does not exist",
+      });
+    }
+    return res.send({
+      success: true,
+      message: "User fetched successfully",
+      data: user,
+    });
+  } catch (error) {
+    return res.send({
+      success: false,
+      message: "User does not exist",
+    });
+  }
+});
 module.exports = router;
