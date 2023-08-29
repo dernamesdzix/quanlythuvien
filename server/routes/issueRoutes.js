@@ -31,7 +31,10 @@ router.post("/issues-new-book", authMiddlewares, async (req, res) => {
 router.post("/get-issues", authMiddlewares, async (req, res) => {
   try {
     delete req.body.userIdFromToken;
-    const issues = await Issue.find(req.body).populate("book").populate("user");
+    const issues = await Issue.find(req.body)
+      .populate("book")
+      .populate("user")
+      .sort({ issueDate: -1 });
     return res.send({
       success: true,
       message: "Issues Fetched Successfully",

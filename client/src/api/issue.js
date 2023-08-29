@@ -51,3 +51,16 @@ export const DeleteIssue = async (payload) => {
     throw error;
   }
 };
+
+// edit an issue
+export const EditIssue = async (payload) => {
+  try {
+    const response = await apiManagement.post(
+      "/api/issues/edit-issue",
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

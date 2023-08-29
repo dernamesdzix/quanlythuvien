@@ -5,7 +5,7 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowLoading, HideLoading } from "../../../redux/loaderSlice";
 import { getUserById } from "../../../api/user";
-import { IssueBook } from "../../../api/issue";
+import { EditIssue, IssueBook } from "../../../api/issue";
 
 function IssueForm({
   open = false,
@@ -58,16 +58,33 @@ function IssueForm({
   const onIssue = async () => {
     try {
       dispatch(ShowLoading());
-      const response = await IssueBook({
-        book: selectedBook._id,
-        user: patronData._id,
-        issueDate: new Date(),
-        returnDate,
-        rent:
-          moment(returnDate).diff(moment(), "days") * selectedBook?.rentPerDay,
-        fine: 0,
-        issuedBy: user._id,
-      });
+      let response = null; // Declare response here
+      if (type !== "edit") {
+        response = await IssueBook({
+          book: selectedBook._id,
+          user: patronData._id,
+          issueDate: new Date(),
+          returnDate,
+          rent:
+            moment(returnDate).diff(moment(), "days") *
+            selectedBook?.rentPerDay,
+          fine: 0,
+          issuedBy: user._id,
+        });
+      } else {
+        response = await EditIssue({
+          book: selectedBook._id,
+          user: patronData._id,
+          issueDate: selectedIssue.issueDate,
+          returnDate,
+          rent:
+            moment(returnDate).diff(moment(), "days") *
+            selectedBook?.rentPerDay,
+          fine: 0,
+          issuedBy: user._id,
+          _id: selectedIssue._id,
+        });
+      }
       dispatch(HideLoading());
       if (response.success) {
         message.success(response.message);
@@ -122,7 +139,7 @@ function IssueForm({
           <input
             type="date"
             value={returnDate}
-            onChange={(e) => setReturnDate(e.target.value)}
+            onChange={(e) => setReturnDate(e.target.value)} // Add this line
             placeholder="Return Date"
             min={moment().format("YYYY-MM-DD")}
           />
@@ -151,7 +168,7 @@ function IssueForm({
             variant="outlined"
             onClick={() => setOpen(false)}
           />
-          {/* Corrected condition */}
+
           {type !== "edit" && (
             <Button
               title="Validate"
