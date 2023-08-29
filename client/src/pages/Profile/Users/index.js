@@ -5,8 +5,11 @@ import { Table, message } from "antd";
 import Button from "../../../components/Button";
 import moment from "moment";
 import { getAllUsers } from "../../../api/user";
+import IssuedBooks from "./IssuedBooks";
 
 function Users({ role }) {
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showIssuedBooks, setShowIssuedBooks] = useState(false);
   const [users, setUsers] = React.useState([]);
   const dispatch = useDispatch();
   const getUsers = async () => {
@@ -31,6 +34,10 @@ function Users({ role }) {
 
   const columns = [
     {
+      title: "Id",
+      dataIndex: "_id",
+    },
+    {
       title: "Name",
       dataIndex: "name",
     },
@@ -52,7 +59,14 @@ function Users({ role }) {
       dataIndex: "actions",
       render: (actions, record) => (
         <div>
-          <Button title="Books" variant="outlined" />
+          <Button
+            title="Books"
+            variant="outlined"
+            onClick={() => {
+              setSelectedUser(record);
+              setShowIssuedBooks(true);
+            }}
+          />
         </div>
       ),
     },
@@ -61,6 +75,14 @@ function Users({ role }) {
   return (
     <div>
       <Table dataSource={users} columns={columns} />
+
+      {showIssuedBooks && (
+        <IssuedBooks
+          showIssuedBooks={showIssuedBooks}
+          setShowIssuedBooks={setShowIssuedBooks}
+          selectedUser={selectedUser}
+        />
+      )}
     </div>
   );
 }

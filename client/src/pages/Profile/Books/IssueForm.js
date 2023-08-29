@@ -84,7 +84,7 @@ function IssueForm({
   return (
     <Modal title="" open={open} onCancel={() => setOpen(false)} footer={null}>
       <div className="flex flex-col gap-2 ">
-        <h1 className="text-secondary font-bold text-xl uppercase">
+        <h1 className="text-secondary font-bold text-xl uppercase text-center">
           Issue New Book
         </h1>
         <input

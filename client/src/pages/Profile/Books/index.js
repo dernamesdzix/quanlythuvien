@@ -169,6 +169,7 @@ function Books() {
           setOpen={setOpenIssues}
           selectedBook={selectedBook}
           setSelectedBook={setSelectedBook}
+          reloadBooks={getBooks}
         />
       )}
 

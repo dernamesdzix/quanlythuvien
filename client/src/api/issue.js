@@ -12,3 +12,29 @@ export const IssueBook = async (payload) => {
     throw error;
   }
 };
+
+// get all issues
+export const GetIssues = async (payload) => {
+  try {
+    const response = await apiManagement.post(
+      "/api/issues/get-issues",
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// return a book
+export const ReturnBook = async (payload) => {
+  try {
+    const response = await apiManagement.post(
+      "/api/issues/return-book",
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
