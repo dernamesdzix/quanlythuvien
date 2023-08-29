@@ -94,4 +94,19 @@ router.post("/delete-issue", authMiddlewares, async (req, res) => {
     res.send({ success: false, message: error.message });
   }
 });
+
+// edit an issue
+router.post("/edit-issue", authMiddlewares, async (req, res) => {
+  try {
+    await Issue.findOneAndUpdate(
+      {
+        _id: req.body._id,
+      },
+      req.body
+    );
+    res.send({ success: true, message: "Issue updated successfully" });
+  } catch (error) {
+    res.send({ success: false, message: error.message });
+  }
+});
 module.exports = router;

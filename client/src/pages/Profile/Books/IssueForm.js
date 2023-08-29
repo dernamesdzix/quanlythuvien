@@ -1,6 +1,6 @@
 import { Modal, Form, message } from "antd";
 import Button from "../../../components/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { ShowLoading, HideLoading } from "../../../redux/loaderSlice";
@@ -20,8 +20,12 @@ function IssueForm({
   const [validated, setValidated] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState(``);
   const [patronData, setPatronData] = useState(`null`);
-  const [patronID, setPatronId] = React.useState(``);
-  const [returnDate, setReturnDate] = React.useState(``);
+  const [patronID, setPatronId] = React.useState(
+    type === "edit" ? selectedIssue.user._id : ""
+  );
+  const [returnDate, setReturnDate] = React.useState(
+    type === "edit" ? moment(selectedIssue.returnDate).format("YYYY-MM-DD") : ""
+  );
   const dispatch = useDispatch();
 
   const validate = async () => {
@@ -83,26 +87,46 @@ function IssueForm({
     }
   };
 
+  useEffect(() => {
+    if (type === "edit") {
+      validate();
+    }
+  }, [open]);
+
+  console.log(type);
+
   return (
-    <Modal title="" open={open} onCancel={() => setOpen(false)} footer={null}>
-      <div className="flex flex-col gap-2 ">
+    <Modal
+      title=""
+      open={open}
+      onCancel={() => setOpen(false)}
+      footer={null}
+      centered
+    >
+      <div className="flex flex-col gap-2">
         <h1 className="text-secondary font-bold text-xl uppercase text-center">
-          Issue New Book
+          {type === "edit" ? "Edit / Renew Issue" : "Issue Book"}
         </h1>
-        <input
-          type="text"
-          value={patronID}
-          onChange={(e) => setPatronId(e.target.value)}
-          placeholder="Patron Id"
-          // disabled={type === "edit"}
-        />
-        <input
-          type="date"
-          value={returnDate}
-          onChange={(e) => setReturnDate(e.target.value)}
-          placeholder="Return Date"
-          min={moment().format("YYYY-MM-DD")}
-        />
+        <div>
+          <span>Patron Id </span>
+          <input
+            type="text"
+            value={patronID}
+            onChange={(e) => setPatronId(e.target.value)}
+            placeholder="Patron Id"
+            disabled={type === "edit"}
+          />
+        </div>
+        <div>
+          <span>Return Date </span>
+          <input
+            type="date"
+            value={returnDate}
+            onChange={(e) => setReturnDate(e.target.value)}
+            placeholder="Return Date"
+            min={moment().format("YYYY-MM-DD")}
+          />
+        </div>
 
         {errorMessage && <span className="error-message">{errorMessage}</span>}
 
@@ -127,14 +151,16 @@ function IssueForm({
             variant="outlined"
             onClick={() => setOpen(false)}
           />
-          <Button
-            title="Validate"
-            disabled={patronID === "" || returnDate === ""}
-            onClick={validate}
-          />
+          {type === "add" && (
+            <Button
+              title="Validate"
+              disabled={patronID === "" || returnDate === ""}
+              onClick={validate}
+            />
+          )}
           {validated && (
             <Button
-              title={"Issue"}
+              title={type === "edit" ? "Edit" : "Issue"}
               onClick={onIssue}
               disabled={patronID === "" || returnDate === ""}
             />

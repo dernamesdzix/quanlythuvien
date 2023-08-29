@@ -140,6 +140,14 @@ function Issues({ open = false, setOpen, selectedBook, reloadBooks }) {
         return (
           <div className="flex gap-1">
             <Button
+              title="Renew"
+              onClick={() => {
+                setSelectedIssue(record);
+                setShowIssueForm(true);
+              }}
+              variant="outlined"
+            />
+            <Button
               title="Return Now"
               onClick={() => onReturnHandler(record)}
               variant="outlined"
