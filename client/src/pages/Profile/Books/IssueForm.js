@@ -151,13 +151,15 @@ function IssueForm({
             variant="outlined"
             onClick={() => setOpen(false)}
           />
-          {type === "add" && (
+          {/* Corrected condition */}
+          {type !== "edit" && (
             <Button
               title="Validate"
               disabled={patronID === "" || returnDate === ""}
               onClick={validate}
             />
           )}
+
           {validated && (
             <Button
               title={type === "edit" ? "Edit" : "Issue"}
