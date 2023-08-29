@@ -13,6 +13,8 @@ function IssueForm({
   selectedBook,
   setSelectedBook,
   getData,
+  selectedIssue,
+  type,
 }) {
   const { user } = useSelector((state) => state.users);
   const [validated, setValidated] = React.useState(false);

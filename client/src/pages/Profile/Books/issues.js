@@ -4,12 +4,14 @@ import moment from "moment";
 import Button from "../../../components/Button";
 import { useDispatch } from "react-redux";
 import { HideLoading, ShowLoading } from "../../../redux/loaderSlice";
-import { GetIssues, ReturnBook } from "../../../api/issue";
+import { DeleteIssue, GetIssues, ReturnBook } from "../../../api/issue";
+import IssueForm from "./IssueForm";
 
 function Issues({ open = false, setOpen, selectedBook, reloadBooks }) {
   const [issues, setIssues] = React.useState([]);
+  const [selectedIssue, setSelectedIssue] = React.useState(null);
+  const [showIssueForm, setShowIssueForm] = React.useState(false);
   const dispatch = useDispatch();
-
   const getIssues = async () => {
     try {
       dispatch(ShowLoading());
@@ -22,7 +24,7 @@ function Issues({ open = false, setOpen, selectedBook, reloadBooks }) {
       }
     } catch (error) {
       dispatch(HideLoading());
-      message.error = error.message;
+      message.error(error.message);
     }
   };
 
@@ -53,6 +55,27 @@ function Issues({ open = false, setOpen, selectedBook, reloadBooks }) {
       const response = await ReturnBook(issue);
       dispatch(HideLoading());
 
+      if (response.success) {
+        message.success(response.message);
+        getIssues();
+        reloadBooks();
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      dispatch(HideLoading());
+      message.error(error.message);
+    }
+  };
+
+  const deleteIssueHandler = async (issue) => {
+    try {
+      dispatch(ShowLoading());
+      const response = await DeleteIssue({
+        ...issue,
+        book: issue.book._id,
+      });
+      dispatch(HideLoading());
       if (response.success) {
         message.success(response.message);
         getIssues();
@@ -115,11 +138,18 @@ function Issues({ open = false, setOpen, selectedBook, reloadBooks }) {
       dataIndex: "action",
       render: (action, record) => {
         return (
-          <Button
-            title="Return Now"
-            onClick={() => onReturnHandler(record)}
-            variant="outlined"
-          />
+          <div className="flex gap-1">
+            <Button
+              title="Return Now"
+              onClick={() => onReturnHandler(record)}
+              variant="outlined"
+            />
+            <Button
+              title="Delete"
+              variant="outlined"
+              onClick={() => deleteIssueHandler(record)}
+            />
+          </div>
         );
       },
     },
@@ -127,16 +157,32 @@ function Issues({ open = false, setOpen, selectedBook, reloadBooks }) {
 
   return (
     <Modal
-      title="Issue Book"
+      title=""
       open={open}
       onCancel={() => setOpen(false)}
       footer={null}
       width={1400}
+      centered
     >
       <h1 className="text-xl mt-1 mb-1 text-secondary uppercase font-bold text-center">
         Issues of {selectedBook.title}
       </h1>
       <Table columns={columns} dataSource={issues} />
+
+      {showIssueForm && (
+        <IssueForm
+          selectedBook={selectedBook}
+          selectedIssue={selectedIssue}
+          open={showIssueForm}
+          setOpen={setShowIssueForm}
+          setSelectedBook={() => {}}
+          getData={() => {
+            getIssues();
+            reloadBooks();
+          }}
+          type="edit"
+        />
+      )}
     </Modal>
   );
 }

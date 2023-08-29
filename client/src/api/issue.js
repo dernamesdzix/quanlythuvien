@@ -38,3 +38,16 @@ export const ReturnBook = async (payload) => {
     throw error;
   }
 };
+
+// delete an issue
+export const DeleteIssue = async (payload) => {
+  try {
+    const response = await apiManagement.post(
+      "/api/issues/delete-issue",
+      payload
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

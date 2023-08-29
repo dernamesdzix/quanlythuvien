@@ -78,4 +78,20 @@ router.post("/return-book", authMiddlewares, async (req, res) => {
   }
 });
 
+// delete an issue
+router.post("/delete-issue", authMiddlewares, async (req, res) => {
+  try {
+    // inventory adjustment (available copies must be incremented by 1)
+    await Book.findOneAndUpdate(
+      { _id: req.body.book },
+      { $inc: { availableCopies: 1 } }
+    );
+
+    // delete issue
+    await Issue.findOneAndDelete({ _id: req.body._id });
+    res.send({ success: true, message: "Issue deleted successfully" });
+  } catch (error) {
+    res.send({ success: false, message: error.message });
+  }
+});
 module.exports = router;
