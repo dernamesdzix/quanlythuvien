@@ -11,6 +11,7 @@ import "./stylesheets/formElements.css";
 import Loader from "./components/Loader";
 import { useSelector } from "react-redux";
 import Profile from "./pages/Profile";
+import BookDescription from "./pages/BookDescription/BookDescription";
 
 function App() {
   const { loading } = useSelector((state) => state.loaders);
@@ -24,6 +25,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/book/:id"
+            element={
+              <ProtectedRoute>
+                <BookDescription />
               </ProtectedRoute>
             }
           />
