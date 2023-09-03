@@ -52,10 +52,10 @@ function Reports() {
               <h1>{reports?.books?.availableBooksCopiesCount}</h1>
             </div>
 
-            {/* <div className="flex justify-between mt-1">
+            <div className="flex justify-between mt-1">
               <h1 className="text-md">Issued Copies</h1>
               <h1>{reports?.books?.issuesBooksCopiesCount}</h1>
-            </div> */}
+            </div>
           </div>
         </Col>
 
