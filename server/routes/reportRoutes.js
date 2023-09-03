@@ -53,6 +53,7 @@ router.get("/get-reports", authMiddlewares, async (req, res) => {
       }
     }, 0);
     const totalCollected = rentCollected + fineCollected;
+
     const rentPending = issues.reduce((acc, issue) => {
       if (issue.returnedDate === null) {
         return acc + issue.rent;
