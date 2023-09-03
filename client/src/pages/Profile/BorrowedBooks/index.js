@@ -32,7 +32,7 @@ function IssuedBooks() {
 
   const columns = [
     {
-      title: "Id",
+      title: "Id Isuues",
       dataIndex: "_id",
     },
     {
